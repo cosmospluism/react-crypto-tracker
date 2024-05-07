@@ -20,7 +20,6 @@ const Header = styled.div`
   align-items: center;
   margin: 30px;
   margin-bottom: 0;
-  border-bottom: 2px solid rgba(299, 299, 299, 0.1);
   padding-bottom: 25px;
 `;
 
@@ -50,8 +49,8 @@ const List = styled.ul`
 const Main = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   margin: 0;
-  padding: 30px;
   height: 700px;
+  /* border-top: 2px solid rgba(299, 299, 299, 0.2); */
 `;
 
 const LoadingText = styled.span`
@@ -80,6 +79,18 @@ const Loader = styled.div`
       transform: rotate(1turn);
     }
   }
+`;
+
+const Table = styled.table`
+  width: 100%;
+  text-align: center;
+  line-height: 50px;
+  margin: 30px;
+`;
+
+const FirstRow = styled.tr`
+  color: grey;
+  font-size: 14px;
 `;
 
 interface ICoins {
@@ -125,15 +136,28 @@ function Coins() {
               <Loader></Loader>
             </LoadingText>
           ) : (
-            <ul>
+            <Table>
+              <thead>
+                <FirstRow>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>24h Change</th>
+                  <th>Price Graph</th>
+                </FirstRow>
+              </thead>
               {data?.map((coin) => (
-                <li key={coin.id}>
-                  {coin.rank}
-                  {coin.name}
-                  {coin.priceUsd}
-                </li>
+                <tbody key={coin.id}>
+                  <tr>
+                    <td>{coin.rank}</td>
+                    <td>{coin.name}</td>
+                    <td>{coin.priceUsd}</td>
+                    <td>{coin.id}</td>
+                    <td>{coin.id}</td>
+                  </tr>
+                </tbody>
               ))}
-            </ul>
+            </Table>
           )}
         </Main>
       </Container>
