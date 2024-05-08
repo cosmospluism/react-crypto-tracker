@@ -53,6 +53,11 @@ body {
   font-family: Inter;
 }
 
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
 `;
 
 function App() {

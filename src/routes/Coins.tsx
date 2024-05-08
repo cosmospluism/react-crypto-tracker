@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -47,10 +48,10 @@ const List = styled.ul`
 `;
 
 const Main = styled.div`
+  overflow: scroll;
   background-color: rgba(0, 0, 0, 0.3);
   margin: 0;
   height: 700px;
-  /* border-top: 2px solid rgba(299, 299, 299, 0.2); */
 `;
 
 const LoadingText = styled.span`
@@ -85,12 +86,29 @@ const Table = styled.table`
   width: 100%;
   text-align: center;
   line-height: 50px;
-  margin: 30px;
+  td {
+    border-top: 3px solid rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    padding-left: 18px;
+    &:nth-child(2) {
+      cursor: pointer;
+    }
+  }
 `;
 
 const FirstRow = styled.tr`
   color: grey;
   font-size: 14px;
+  th {
+    padding-left: 10px;
+  }
+`;
+
+const SecondRow = styled.tr`
+  transition: all 0.2s;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 `;
 
 interface ICoins {
@@ -148,13 +166,22 @@ function Coins() {
               </thead>
               {data?.map((coin) => (
                 <tbody key={coin.id}>
-                  <tr>
+                  <SecondRow>
                     <td>{coin.rank}</td>
-                    <td>{coin.name}</td>
-                    <td>{coin.priceUsd}</td>
+                    <td>
+                      <Link to={`/${coin.id}`}>
+                        {coin.name} ({coin.symbol})
+                      </Link>
+                    </td>
+                    <td>$ {Number(coin.priceUsd).toFixed(2)}</td>
+                    <td>
+                      {coin.changePercent24Hr <= "0"
+                        ? ` ${Number(coin.changePercent24Hr).toFixed(2)}`
+                        : `▴ ${Number(coin.changePercent24Hr).toFixed(2)}`}
+                      %
+                    </td>
                     <td>{coin.id}</td>
-                    <td>{coin.id}</td>
-                  </tr>
+                  </SecondRow>
                 </tbody>
               ))}
             </Table>
