@@ -109,20 +109,27 @@ const SecondRow = styled.tr`
   &:hover {
     background-color: rgba(0, 0, 0, 0.4);
   }
+  td:nth-child(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+const Img = styled.img`
+  width: 25px;
+  margin-right: 7px;
+  text-align: center;
 `;
 
 interface ICoins {
   id: string;
-  rank: string;
   symbol: string;
   name: string;
-  supply: string;
-  maxSupply: string;
-  marketCapUsd: string;
-  volumeUsd24Hr: string;
-  priceUsd: string;
-  changePercent24Hr: string;
-  vwap24Hr: string;
+  image: string;
+  current_price: number;
+  market_cap_rank: number;
+  price_change_percentage_24h: number;
 }
 
 function Coins() {
@@ -167,17 +174,22 @@ function Coins() {
               {data?.map((coin) => (
                 <tbody key={coin.id}>
                   <SecondRow>
-                    <td>{coin.rank}</td>
+                    <td>{coin.market_cap_rank}</td>
                     <td>
+                      <Img src={coin.image} alt="icon" />
                       <Link to={`/${coin.id}`}>
-                        {coin.name} ({coin.symbol})
+                        {coin.name} ({coin.symbol.toUpperCase()})
                       </Link>
                     </td>
-                    <td>$ {Number(coin.priceUsd).toFixed(2)}</td>
+                    <td>$ {Number(coin.current_price).toFixed(2)}</td>
                     <td>
-                      {coin.changePercent24Hr <= "0"
-                        ? ` ${Number(coin.changePercent24Hr).toFixed(2)}`
-                        : `▴ ${Number(coin.changePercent24Hr).toFixed(2)}`}
+                      {coin.price_change_percentage_24h <= 0
+                        ? ` ${Number(coin.price_change_percentage_24h).toFixed(
+                            2
+                          )}`
+                        : `▴ ${Number(coin.price_change_percentage_24h).toFixed(
+                            2
+                          )}`}
                       %
                     </td>
                     <td>{coin.id}</td>
