@@ -44,8 +44,9 @@ const List = styled.ul`
 const Main = styled.div`
   overflow: scroll;
   background-color: rgba(0, 0, 0, 0.3);
-  margin: 0;
   height: 700px;
+  margin: 0;
+  padding: 45px;
 `;
 const LoadingText = styled.span`
   display: flex;
@@ -73,20 +74,54 @@ const Loader = styled.div`
     }
   }
 `;
+const CoinName = styled.h1`
+  font-size: 30px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+`;
+const CoinPrice = styled.h2`
+  font-size: 35px;
+  margin-bottom: 40px;
+`;
+const Btn = styled.button`
+  font-size: 20px;
+  padding: 10px 15px;
+  border: 2px solid rgba(299, 299, 299, 0.4);
+  border-radius: 8px;
+  color: rgba(299, 299, 299, 0.4);
+  background: transparent;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: all 0.3s linear;
+  &:hover {
+    background-color: aliceblue;
+    color: black;
+  }
+`;
 
+// interface
 interface IParmas {
   id: string;
 }
 
 interface ICoin {
   id: string;
+  name: string;
+  symbol: string;
+  rank: number;
+  quotes: {
+    USD: {
+      price: number;
+      percent_change_24h: number;
+    };
+  };
 }
 
 function Coin() {
   const { id: coinId } = useParams<IParmas>();
-  // const { isLoading, data } = useQuery<ICoin>(["coin: ", coinId], () =>
-  //   fetchCoin(coinId)
-  // );
+  const { isLoading, data } = useQuery<ICoin>(["coin: ", coinId], () =>
+    fetchCoin(coinId)
+  );
 
   return (
     <>
@@ -111,13 +146,28 @@ function Coin() {
           </Nav>
         </Header>
         <Main>
-          {/* {isLoading ? (
+          {isLoading ? (
             <LoadingText>
               <Loader></Loader>
             </LoadingText>
           ) : (
-            <h2>coin</h2>
-          )} */}
+            <>
+              <CoinName>{data?.name}</CoinName>
+              <div>
+                <CoinPrice>$ {data?.quotes.USD.price.toFixed(2)}</CoinPrice>
+                {/* <span>
+                  {data?.quotes.USD.percent_change_24h <= 0
+                    ? ` ${data?.quotes.USD.percent_change_24h}`
+                    : `▴ ${data?.quotes.USD.percent_change_24h}`}
+                  %
+                </span> */}
+              </div>
+              <div>
+                <Btn>Price</Btn>
+                <Btn>Chart</Btn>
+              </div>
+            </>
+          )}
         </Main>
       </Container>
     </>
