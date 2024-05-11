@@ -79,10 +79,17 @@ const CoinName = styled.h1`
   margin-bottom: 20px;
   opacity: 0.5;
 `;
-const CoinPrice = styled.h2`
-  font-size: 35px;
-  margin-bottom: 40px;
+
+const CoinPrice = styled.div`
+  display: flex;
+  align-items: center;
+  h2 {
+    font-size: 35px;
+    margin-bottom: 40px;
+    margin-right: 15px;
+  }
 `;
+
 const Btn = styled.button`
   font-size: 20px;
   padding: 10px 15px;
@@ -106,15 +113,12 @@ interface IParmas {
 
 interface ICoin {
   id: string;
-  name: string;
   symbol: string;
-  rank: number;
-  quotes: {
-    USD: {
-      price: number;
-      percent_change_24h: number;
-    };
-  };
+  name: string;
+  image: string;
+  current_price: number;
+  market_cap_rank: number;
+  price_change_percentage_24h: number;
 }
 
 function Coin() {
@@ -153,15 +157,17 @@ function Coin() {
           ) : (
             <>
               <CoinName>{data?.name}</CoinName>
-              <div>
-                <CoinPrice>$ {data?.quotes.USD.price.toFixed(2)}</CoinPrice>
-                {/* <span>
-                  {data?.quotes.USD.percent_change_24h <= 0
-                    ? ` ${data?.quotes.USD.percent_change_24h}`
-                    : `▴ ${data?.quotes.USD.percent_change_24h}`}
+              <CoinPrice>
+                <h2>$ {data?.current_price}</h2>
+                <span>
+                  {data
+                    ? data.price_change_percentage_24h <= 0
+                      ? ` ${data?.price_change_percentage_24h}`
+                      : `▴ ${data?.price_change_percentage_24h}`
+                    : null}
                   %
-                </span> */}
-              </div>
+                </span>
+              </CoinPrice>
               <div>
                 <Btn>Price</Btn>
                 <Btn>Chart</Btn>

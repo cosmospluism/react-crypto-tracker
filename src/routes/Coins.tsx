@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
-import { fetchCoins, fetchCoinIcon } from "../api";
+import { fetchCoins } from "../api";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -113,6 +113,7 @@ const SecondRow = styled.tr`
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.2s;
   }
 `;
 
@@ -124,15 +125,12 @@ const Img = styled.img`
 
 interface ICoins {
   id: string;
-  name: string;
   symbol: string;
-  rank: number;
-  quotes: {
-    USD: {
-      price: number;
-      percent_change_24h: number;
-    };
-  };
+  name: string;
+  image: string;
+  current_price: number;
+  market_cap_rank: number;
+  price_change_percentage_24h: number;
 }
 
 function Coins() {
@@ -140,7 +138,6 @@ function Coins() {
     "all coins",
     fetchCoins
   );
-  // const { data: coinIcon } = useQuery("coin Icon", fetchCoinIcon);
 
   return (
     <>
@@ -181,18 +178,18 @@ function Coins() {
               {coinData?.map((coin) => (
                 <tbody key={coin.id}>
                   <SecondRow>
-                    <td>{coin.rank}</td>
+                    <td>{coin.market_cap_rank}</td>
                     <td>
-                      {/* <Img src={coin.image} alt="icon" /> */}
+                      <Img src={coin.image} alt="icon" />
                       <Link to={`/${coin.id}`}>
                         {coin.name} ({coin.symbol.toUpperCase()})
                       </Link>
                     </td>
-                    <td>$ {Number(coin.quotes.USD.price).toFixed(2)}</td>
+                    <td>$ {coin.current_price}</td>
                     <td>
-                      {coin.quotes.USD.percent_change_24h <= 0
-                        ? ` ${coin.quotes.USD.percent_change_24h}`
-                        : `▴ ${coin.quotes.USD.percent_change_24h}`}
+                      {coin.price_change_percentage_24h <= 0
+                        ? ` ${coin.price_change_percentage_24h.toFixed(2)}`
+                        : `▴ ${coin.price_change_percentage_24h.toFixed(2)}`}
                       %
                     </td>
                     <td>{coin.id}</td>
