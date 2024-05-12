@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { Helmet } from "react-helmet-async";
-import { Link, useParams } from "react-router-dom";
+import { Link, Route, Switch, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoin } from "../api";
+import Price from "./Price";
+import Chart from "./Chart";
 
 const Container = styled.div`
   display: flex;
@@ -46,7 +48,7 @@ const Main = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   height: 700px;
   margin: 0;
-  padding: 45px;
+  padding: 50px;
 `;
 const LoadingText = styled.span`
   display: flex;
@@ -83,26 +85,57 @@ const CoinName = styled.h1`
 const CoinPrice = styled.div`
   display: flex;
   align-items: center;
+  color: white;
+  margin-bottom: 25px;
   h2 {
     font-size: 35px;
-    margin-bottom: 40px;
+    font-weight: bolder;
     margin-right: 15px;
+  }
+  span {
+    border: none;
+    border-radius: 7px;
+    background-color: #537895;
+    padding: 10px;
   }
 `;
 
-const Btn = styled.button`
-  font-size: 20px;
-  padding: 10px 15px;
+const Btns = styled.div`
+  display: inline-block;
   border: 2px solid rgba(299, 299, 299, 0.4);
   border-radius: 8px;
-  color: rgba(299, 299, 299, 0.4);
-  background: transparent;
-  cursor: pointer;
-  margin-left: 10px;
-  transition: all 0.3s linear;
-  &:hover {
-    background-color: aliceblue;
-    color: black;
+  padding: 10px;
+  gap: 10px;
+
+  button {
+    font-size: 20px;
+    padding: 10px 15px;
+    border: 2px solid rgba(299, 299, 299, 0.4);
+    border-radius: 8px;
+    color: rgba(299, 299, 299, 0.4);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s linear;
+    &:hover {
+      background-color: aliceblue;
+      color: black;
+    }
+  }
+`;
+
+const Price24h = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  span {
+    &:nth-child(2) {
+      border: 1px solid white;
+      border-radius: 6px;
+      background-color: rgba(299, 299, 299, 0.08);
+      padding: 5px 7px;
+    }
   }
 `;
 
@@ -119,6 +152,7 @@ interface ICoin {
   current_price: number;
   market_cap_rank: number;
   price_change_percentage_24h: number;
+  price_change_24h: number;
 }
 
 function Coin() {
@@ -162,16 +196,38 @@ function Coin() {
                 <span>
                   {data
                     ? data.price_change_percentage_24h <= 0
-                      ? ` ${data?.price_change_percentage_24h}`
-                      : `▴ ${data?.price_change_percentage_24h}`
+                      ? ` ${data?.price_change_percentage_24h.toFixed(2)}`
+                      : `▴ ${data?.price_change_percentage_24h.toFixed(2)}`
                     : null}
                   %
                 </span>
               </CoinPrice>
-              <div>
-                <Btn>Price</Btn>
-                <Btn>Chart</Btn>
-              </div>
+              <Price24h>
+                <span>
+                  {data
+                    ? data.price_change_24h <= 0
+                      ? `- $${data?.price_change_24h.toFixed(2)}`
+                      : `+ $${data?.price_change_24h.toFixed(2)}`
+                    : null}
+                </span>
+                <span>24h</span>
+              </Price24h>
+              <Btns>
+                <button>
+                  <Link to={`/${coinId}/price`}>Price</Link>
+                </button>
+                <button>
+                  <Link to={`/${coinId}/chart`}>Chart</Link>
+                </button>
+              </Btns>
+              <Switch>
+                <Route path={"/:coinId/price"}>
+                  <Price />
+                </Route>
+                <Route path={"/:coinId/chart"}>
+                  <Chart />
+                </Route>
+              </Switch>
             </>
           )}
         </Main>

@@ -9,7 +9,8 @@ export async function fetchCoins() {
 }
 
 export async function fetchCoin(coinId: string) {
-  return await (
+  const json = await (
     await fetch(`${BASE_URL}?ids=${coinId}&vs_currency=usd`)
   ).json();
+  return json[0];
 }
