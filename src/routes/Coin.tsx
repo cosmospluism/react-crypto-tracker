@@ -77,7 +77,7 @@ const Loader = styled.div`
   }
 `;
 const CoinName = styled.h1`
-  font-size: 30px;
+  font-size: 25px;
   margin-bottom: 20px;
   opacity: 0.5;
 `;
@@ -86,7 +86,7 @@ const CoinPrice = styled.div`
   display: flex;
   align-items: center;
   color: white;
-  margin-bottom: 25px;
+  margin-bottom: 14px;
   h2 {
     font-size: 35px;
     font-weight: bolder;
@@ -100,41 +100,50 @@ const CoinPrice = styled.div`
   }
 `;
 
-const Btns = styled.div`
-  display: inline-block;
-  border: 2px solid rgba(299, 299, 299, 0.4);
-  border-radius: 8px;
-  padding: 10px;
-  gap: 10px;
-
-  button {
-    font-size: 20px;
-    padding: 10px 15px;
-    border: 2px solid rgba(299, 299, 299, 0.4);
-    border-radius: 8px;
-    color: rgba(299, 299, 299, 0.4);
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.3s linear;
-    &:hover {
-      background-color: aliceblue;
-      color: black;
-    }
-  }
-`;
-
 const Price24h = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
   margin-bottom: 30px;
   span {
+    &:first-child {
+      font-size: 19px;
+      color: #74a8d0;
+      margin-right: 10px;
+    }
     &:nth-child(2) {
-      border: 1px solid white;
+      font-size: 13px;
+      border: 1.5px solid rgba(299, 299, 299, 0.15);
       border-radius: 6px;
       background-color: rgba(299, 299, 299, 0.08);
       padding: 5px 7px;
+    }
+  }
+`;
+
+const Btns = styled.div`
+  display: inline-block;
+  background-color: rgba(299, 299, 299, 0.05);
+
+  border: 2px solid rgba(299, 299, 299, 0.4);
+  border-radius: 7px;
+  padding: 10px;
+
+  button {
+    all: unset;
+    font-size: 20px;
+    padding: 12px;
+    color: rgba(299, 299, 299, 0.4);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    &:nth-child(2) {
+      margin-left: 10px;
+    }
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+      color: white;
     }
   }
 `;
@@ -225,7 +234,7 @@ function Coin() {
                   <Price />
                 </Route>
                 <Route path={"/:coinId/chart"}>
-                  <Chart />
+                  <Chart coinId={coinId} />
                 </Route>
               </Switch>
             </>

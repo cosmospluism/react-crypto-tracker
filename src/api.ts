@@ -14,3 +14,9 @@ export async function fetchCoin(coinId: string) {
   ).json();
   return json[0];
 }
+
+export async function fetchCoinOhlc(coinId: string) {
+  return await (
+    await fetch(`https://ohlcv-api.nomadcoders.workers.dev/?coinId=${coinId}`)
+  ).json();
+}
