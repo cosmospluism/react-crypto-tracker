@@ -14,10 +14,13 @@ const Container = styled.div`
 
 interface IChart {
   coinId: string;
+  coinSymbol: string;
 }
 
-function Chart({ coinId }: IChart) {
-  const { data } = useQuery(["coinOhlc", coinId], () => fetchCoinOhlc(coinId));
+function Chart({ coinId, coinSymbol }: IChart) {
+  const { data } = useQuery(["coinOhlc", coinId], () =>
+    fetchCoinOhlc(coinId, coinSymbol)
+  );
   console.log(data);
 
   return (

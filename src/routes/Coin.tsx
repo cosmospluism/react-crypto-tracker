@@ -169,6 +169,7 @@ function Coin() {
   const { isLoading, data } = useQuery<ICoin>(["coin: ", coinId], () =>
     fetchCoin(coinId)
   );
+  console.log(data?.symbol);
 
   return (
     <>
@@ -234,7 +235,7 @@ function Coin() {
                   <Price />
                 </Route>
                 <Route path={"/:coinId/chart"}>
-                  <Chart coinId={coinId} />
+                  <Chart coinId={coinId} coinSymbol={data?.symbol ?? ""} />
                 </Route>
               </Switch>
             </>
