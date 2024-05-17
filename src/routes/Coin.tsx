@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { fetchCoin } from "../api";
 import Price from "./Price";
 import Chart from "./Chart";
+import { useRouteMatch } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -124,27 +125,28 @@ const Price24h = styled.div`
 const Btns = styled.div`
   display: inline-block;
   background-color: rgba(299, 299, 299, 0.05);
-
   border: 2px solid rgba(299, 299, 299, 0.4);
   border-radius: 7px;
   padding: 10px;
+`;
 
-  button {
-    all: unset;
-    font-size: 20px;
-    padding: 12px;
-    color: rgba(299, 299, 299, 0.4);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s linear;
-    &:nth-child(2) {
-      margin-left: 10px;
-    }
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.3);
-      color: white;
-    }
+const Btn = styled.button<{ $isActive: boolean }>`
+  all: unset;
+  font-size: 20px;
+  padding: 12px;
+  background-color: ${(props) =>
+    props.$isActive ? "rgba(0, 0, 0, 0.3)" : null};
+  color: ${(props) => (props.$isActive ? "white" : "rgba(299, 299, 299, 0.4)")};
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  &:nth-child(2) {
+    margin-left: 10px;
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
   }
 `;
 
@@ -169,7 +171,9 @@ function Coin() {
   const { isLoading, data } = useQuery<ICoin>(["coin: ", coinId], () =>
     fetchCoin(coinId)
   );
-  console.log(data?.symbol);
+  // console.log(data?.symbol);
+  const priceMatch = useRouteMatch(`/${coinId}/price`);
+  const chartMatch = useRouteMatch(`/${coinId}/chart`);
 
   return (
     <>
@@ -216,19 +220,19 @@ function Coin() {
                 <span>
                   {data
                     ? data.price_change_24h <= 0
-                      ? `- $${data?.price_change_24h.toFixed(2)}`
-                      : `+ $${data?.price_change_24h.toFixed(2)}`
+                      ? `- $${Math.abs(data?.price_change_24h)?.toFixed(2)}`
+                      : `+ $${data?.price_change_24h?.toFixed(2)}`
                     : null}
                 </span>
                 <span>24h</span>
               </Price24h>
               <Btns>
-                <button>
+                <Btn $isActive={priceMatch !== null}>
                   <Link to={`/${coinId}/price`}>Price</Link>
-                </button>
-                <button>
+                </Btn>
+                <Btn $isActive={chartMatch !== null}>
                   <Link to={`/${coinId}/chart`}>Chart</Link>
-                </button>
+                </Btn>
               </Btns>
               <Switch>
                 <Route path={"/:coinId/price"}>
