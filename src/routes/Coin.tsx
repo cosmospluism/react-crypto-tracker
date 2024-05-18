@@ -144,10 +144,6 @@ const Btn = styled.button<{ $isActive: boolean }>`
   &:nth-child(2) {
     margin-left: 10px;
   }
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-    color: white;
-  }
 `;
 
 // interface
@@ -171,7 +167,6 @@ function Coin() {
   const { isLoading, data } = useQuery<ICoin>(["coin: ", coinId], () =>
     fetchCoin(coinId)
   );
-  // console.log(data?.symbol);
   const priceMatch = useRouteMatch(`/${coinId}/price`);
   const chartMatch = useRouteMatch(`/${coinId}/chart`);
 
