@@ -9,8 +9,8 @@ const Container = styled.div`
   /* left: 440px; */
   /* height: 400px;
   width: 850px; */
-  top: 280px;
-  left: 490px;
+  top: 260px;
+  left: 460px;
   height: 400px;
   width: 770px;
 `;
@@ -36,7 +36,7 @@ function Chart({ coinId, coinSymbol }: IChart) {
   const { data } = useQuery<IData[]>(["coinOhlc", coinId], () =>
     fetchCoinOhlc(coinId, coinSymbol)
   );
-  console.log(data);
+  // console.log(data);
 
   return (
     <Container>
@@ -44,26 +44,56 @@ function Chart({ coinId, coinSymbol }: IChart) {
         type="area"
         options={{
           xaxis: {
+            // type: "datetime",
             axisTicks: {
               show: false,
             },
+            axisBorder: {
+              show: false,
+            },
+            labels: {
+              show: false,
+            },
+            categories: data?.map((date) => date.time_close),
           },
           yaxis: {
-            show: false,
+            labels: {
+              style: {
+                colors: ["white"],
+                fontSize: "14px",
+              },
+            },
+            stepSize: 2000,
           },
           chart: {
             toolbar: {
               show: false,
             },
           },
+          colors: ["#008FFB"],
           fill: {
             type: "gradient",
-            gradient: { gradientToColors: ["lightblue"], stops: [0, 100] },
+            gradient: { gradientToColors: ["transparent"], stops: [0, 100] },
+          },
+          grid: {
+            borderColor: "rgba(299, 299, 299, 0.2)",
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
+            curve: "straight",
+          },
+          tooltip: {
+            y: {
+              formatter: (value) => `$ ${value.toFixed(2)}`,
+            },
+            theme: "dark",
           },
         }}
         series={[
           {
-            name: "price",
+            name: "Price",
             data: data?.map((price) => Number(price.close)) ?? [],
           },
         ]}

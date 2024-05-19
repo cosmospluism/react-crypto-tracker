@@ -165,7 +165,7 @@ interface ICoin {
 function Coin() {
   const { id: coinId } = useParams<IParmas>();
   const { isLoading, data } = useQuery<ICoin>(["coin: ", coinId], () =>
-    fetchCoin(coinId)
+    fetchCoin()
   );
   const priceMatch = useRouteMatch(`/${coinId}/price`);
   const chartMatch = useRouteMatch(`/${coinId}/chart`);
