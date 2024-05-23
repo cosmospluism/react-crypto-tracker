@@ -32,11 +32,10 @@ interface IData {
   market_cap: number;
 }
 
-function Chart({ coinId, coinSymbol }: IChart) {
+function AreaChart({ coinId, coinSymbol }: IChart) {
   const { data } = useQuery<IData[]>(["coinOhlc", coinId], () =>
     fetchCoinOhlc(coinId, coinSymbol)
   );
-  // console.log(data);
 
   return (
     <Container>
@@ -54,7 +53,9 @@ function Chart({ coinId, coinSymbol }: IChart) {
             labels: {
               show: false,
             },
-            categories: data?.map((date) => date.time_close),
+            categories: data?.map((date) =>
+              new Date(date.time_close * 1000).toISOString()
+            ),
           },
           yaxis: {
             labels: {
@@ -62,8 +63,9 @@ function Chart({ coinId, coinSymbol }: IChart) {
                 colors: ["white"],
                 fontSize: "14px",
               },
+              formatter: (value) => `$ ${value}`,
             },
-            stepSize: 2000,
+            tickAmount: 4,
           },
           chart: {
             toolbar: {
@@ -73,7 +75,7 @@ function Chart({ coinId, coinSymbol }: IChart) {
           colors: ["#008FFB"],
           fill: {
             type: "gradient",
-            gradient: { gradientToColors: ["transparent"], stops: [0, 100] },
+            gradient: { gradientToColors: ["transparent"] },
           },
           grid: {
             borderColor: "rgba(299, 299, 299, 0.2)",
@@ -85,10 +87,10 @@ function Chart({ coinId, coinSymbol }: IChart) {
             curve: "straight",
           },
           tooltip: {
+            theme: "dark",
             y: {
               formatter: (value) => `$ ${value.toFixed(2)}`,
             },
-            theme: "dark",
           },
         }}
         series={[
@@ -102,4 +104,4 @@ function Chart({ coinId, coinSymbol }: IChart) {
   );
 }
 
-export default Chart;
+export default AreaChart;

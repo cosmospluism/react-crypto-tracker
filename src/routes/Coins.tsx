@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   display: flex;
@@ -12,7 +14,7 @@ const Container = styled.div`
   border-radius: 10px 10px 0px 0px;
   margin: 100px 70px;
   margin-bottom: 0;
-  height: 680px;
+  height: 700px;
   background-color: rgba(299, 299, 299, 0.08);
 `;
 
@@ -44,6 +46,9 @@ const List = styled.ul`
   opacity: 0.8;
   li {
     cursor: pointer;
+    &:hover {
+      color: white;
+    }
   }
 `;
 
@@ -115,6 +120,24 @@ const SecondRow = styled.tr`
     align-items: center;
     transition: all 0.2s;
   }
+  td:nth-child(3) {
+    text-align: right;
+    padding-right: 150px;
+  }
+
+  td:nth-child(5) {
+    opacity: 0.8;
+  }
+`;
+
+const PricePercent = styled.td<{ $isActive: boolean }>`
+  span {
+    color: ${(props) => (props.$isActive ? "#FF4D4D" : "#6CCF59")};
+    background-color: ${(props) =>
+      props.$isActive ? "rgba(239, 11, 11, 0.15)" : "rgba(30, 239, 11, 0.1)"};
+    padding: 7px;
+    border-radius: 5px;
+  }
 `;
 
 const Img = styled.img`
@@ -172,7 +195,7 @@ function Coins() {
                   <th>Name</th>
                   <th>Price</th>
                   <th>24h Change</th>
-                  <th>Price Graph</th>
+                  <th>ACTIONS</th>
                 </FirstRow>
               </thead>
               {coinData?.map((coin) => (
@@ -186,13 +209,25 @@ function Coins() {
                       </Link>
                     </td>
                     <td>$ {coin.current_price}</td>
+                    <PricePercent
+                      $isActive={coin.price_change_percentage_24h < 0}
+                    >
+                      <span>
+                        {coin.price_change_percentage_24h < 0
+                          ? `▼ ${Math.abs(
+                              coin.price_change_percentage_24h
+                            ).toFixed(2)}`
+                          : `▴ ${coin.price_change_percentage_24h.toFixed(2)}`}
+                        %
+                      </span>
+                    </PricePercent>
                     <td>
-                      {coin.price_change_percentage_24h <= 0
-                        ? ` ${coin.price_change_percentage_24h.toFixed(2)}`
-                        : `▴ ${coin.price_change_percentage_24h.toFixed(2)}`}
-                      %
+                      <FontAwesomeIcon
+                        icon={faPlus}
+                        style={{ marginRight: "18px" }}
+                      />
+                      <FontAwesomeIcon icon={faEllipsis} />{" "}
                     </td>
-                    <td>{coin.id}</td>
                   </SecondRow>
                 </tbody>
               ))}

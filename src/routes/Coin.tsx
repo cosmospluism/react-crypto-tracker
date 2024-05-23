@@ -3,8 +3,9 @@ import { Helmet } from "react-helmet-async";
 import { Link, Route, Switch, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoin } from "../api";
+import Candle from "./Candlestick";
+import AreaChart from "./AreaChart";
 import Price from "./Price";
-import Chart from "./Chart";
 import { useRouteMatch } from "react-router-dom";
 
 const Container = styled.div`
@@ -42,6 +43,9 @@ const List = styled.ul`
   opacity: 0.8;
   li {
     cursor: pointer;
+    &:hover {
+      color: white;
+    }
   }
 `;
 const Main = styled.div`
@@ -49,7 +53,7 @@ const Main = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   height: 700px;
   margin: 0;
-  padding: 50px;
+  padding: 65px;
 `;
 const LoadingText = styled.span`
   display: flex;
@@ -181,7 +185,7 @@ function Coin() {
       <Container>
         <Header>
           <Link to={"/"}>
-            <SquareIcon src="./square.png" alt="icon" />
+            <SquareIcon src="/square.png" alt="icon" />
           </Link>
           <Title>Crypto Tracker</Title>
           <Nav>
@@ -229,12 +233,13 @@ function Coin() {
                   <Link to={`/${coinId}/chart`}>Chart</Link>
                 </Btn>
               </Btns>
+              <Btn $isActive={true}>hi</Btn>
               <Switch>
                 <Route path={"/:coinId/price"}>
                   <Price />
                 </Route>
                 <Route path={"/:coinId/chart"}>
-                  <Chart coinId={coinId} coinSymbol={data?.symbol ?? ""} />
+                  <AreaChart coinId={coinId} coinSymbol={data?.symbol ?? ""} />
                 </Route>
               </Switch>
             </>
