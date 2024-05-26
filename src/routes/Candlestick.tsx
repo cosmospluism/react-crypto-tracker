@@ -4,9 +4,6 @@ import { useQuery } from "react-query";
 import { fetchCoinOhlc } from "../api";
 
 const Container = styled.div`
-  position: absolute;
-  top: 260px;
-  left: 460px;
   height: 400px;
   width: 770px;
 `;
@@ -57,6 +54,7 @@ function Candlestick({ coinId, coinSymbol }: IChart) {
             },
           },
           xaxis: {
+            type: "datetime",
             axisTicks: {
               show: false,
             },
@@ -90,12 +88,3 @@ function Candlestick({ coinId, coinSymbol }: IChart) {
 }
 
 export default Candlestick;
-
-// series={[
-//   {
-//     data: data?.map((item) => ({
-//       x: item.time_close,
-//       y: [item.open, item.high, item.low, item.close],
-//     })),
-//   },
-// ]}

@@ -4,13 +4,6 @@ import { useQuery } from "react-query";
 import { fetchCoinOhlc } from "../api";
 
 const Container = styled.div`
-  position: absolute;
-  /* top: 350px; */
-  /* left: 440px; */
-  /* height: 400px;
-  width: 850px; */
-  top: 260px;
-  left: 460px;
   height: 400px;
   width: 770px;
 `;
@@ -43,7 +36,7 @@ function AreaChart({ coinId, coinSymbol }: IChart) {
         type="area"
         options={{
           xaxis: {
-            // type: "datetime",
+            // type: "category",
             axisTicks: {
               show: false,
             },

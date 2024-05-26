@@ -134,7 +134,7 @@ const PricePercent = styled.td<{ $isActive: boolean }>`
   span {
     color: ${(props) => (props.$isActive ? "#FF4D4D" : "#6CCF59")};
     background-color: ${(props) =>
-      props.$isActive ? "rgba(239, 11, 11, 0.15)" : "rgba(30, 239, 11, 0.1)"};
+      props.$isActive ? "rgba(239, 11, 11, 0.2)" : "rgba(30, 239, 11, 0.1)"};
     padding: 7px;
     border-radius: 5px;
   }

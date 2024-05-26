@@ -3,9 +3,8 @@ import { Helmet } from "react-helmet-async";
 import { Link, Route, Switch, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoin } from "../api";
-import Candle from "./Candlestick";
-import AreaChart from "./AreaChart";
 import Price from "./Price";
+import Chart from "./Chart";
 import { useRouteMatch } from "react-router-dom";
 
 const Container = styled.div`
@@ -169,7 +168,7 @@ interface ICoin {
 function Coin() {
   const { id: coinId } = useParams<IParmas>();
   const { isLoading, data } = useQuery<ICoin>(["coin: ", coinId], () =>
-    fetchCoin()
+    fetchCoin(coinId)
   );
   const priceMatch = useRouteMatch(`/${coinId}/price`);
   const chartMatch = useRouteMatch(`/${coinId}/chart`);
@@ -187,7 +186,9 @@ function Coin() {
           <Link to={"/"}>
             <SquareIcon src="/square.png" alt="icon" />
           </Link>
-          <Title>Crypto Tracker</Title>
+          <Link to={"/"}>
+            <Title>Crypto Tracker</Title>
+          </Link>
           <Nav>
             <List>
               <li>Buy Crypto</li>
@@ -233,13 +234,12 @@ function Coin() {
                   <Link to={`/${coinId}/chart`}>Chart</Link>
                 </Btn>
               </Btns>
-              <Btn $isActive={true}>hi</Btn>
               <Switch>
                 <Route path={"/:coinId/price"}>
-                  <Price />
+                  <Price coinId={coinId} />
                 </Route>
                 <Route path={"/:coinId/chart"}>
-                  <AreaChart coinId={coinId} coinSymbol={data?.symbol ?? ""} />
+                  <Chart coinId={coinId} coinSymbol={data?.symbol ?? ""} />
                 </Route>
               </Switch>
             </>
