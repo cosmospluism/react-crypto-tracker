@@ -20,9 +20,9 @@ export async function fetchCoins() {
     .then((response) => response.json())
     .catch(async (err) => {
       console.log(err);
-      return await fetch("http://localhost:3000/data/sample_coins.json").then(
-        (res) => res.json()
-      );
+      return await fetch(
+        "https://cosmospluism.github.io/react-crypto-tracker/data/sample_coins.json"
+      ).then((res) => res.json());
     });
 }
 
@@ -32,9 +32,9 @@ export async function fetchCoin(coinId: string) {
     .then((json) => json[0])
     .catch(async (err) => {
       console.log(err.message);
-      return await fetch("http://localhost:3000/data/sample_coin.json").then(
-        (res) => res.json()
-      );
+      return await fetch(
+        "https://cosmospluism.github.io/react-crypto-tracker/data/sample_coin.json"
+      ).then((res) => res.json());
     });
 }
 

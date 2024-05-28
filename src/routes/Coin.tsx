@@ -15,7 +15,7 @@ const Container = styled.div`
   border-radius: 10px 10px 0px 0px;
   margin: 100px 70px;
   margin-bottom: 0;
-  height: 680px;
+  height: 700px;
   background-color: rgba(299, 299, 299, 0.08);
 `;
 const Header = styled.div`
