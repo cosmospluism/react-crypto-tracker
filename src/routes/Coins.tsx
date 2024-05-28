@@ -172,7 +172,7 @@ function Coins() {
       </Helmet>
       <Container>
         <Header>
-          <SquareIcon src="/square.png" alt="icon" />
+          <SquareIcon src="./square.png" alt="icon" />
           <Title>Crypto Tracker</Title>
           <Nav>
             <List>

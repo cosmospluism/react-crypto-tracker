@@ -184,7 +184,7 @@ function Coin() {
       <Container>
         <Header>
           <Link to={"/"}>
-            <SquareIcon src="/square.png" alt="icon" />
+            <SquareIcon src="./square.png" alt="icon" />
           </Link>
           <Link to={"/"}>
             <Title>Crypto Tracker</Title>
